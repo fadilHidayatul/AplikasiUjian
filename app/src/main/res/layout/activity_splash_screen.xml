@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login.SplashScreenActivity"
+    android:background="#ffffff">
+
+    <View
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/app"
+        android:background="@color/red"
+        android:layout_width="300dp"
+        android:layout_height="3dp"/>
+    <TextView
+        android:id="@+id/app"
+        android:text="Aplikasi Ujian Kenaikan Kelas 5"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:fontFamily="@font/friz"
+        android:layout_above="@id/garis"
+        android:textColor="#283551"
+        android:paddingHorizontal="33dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <View
+        android:layout_centerHorizontal="true"
+        android:id="@+id/garis"
+        android:layout_above="@id/splash"
+        android:background="@color/red"
+        android:layout_width="300dp"
+        android:layout_height="3dp"/>
+
+    <ImageView
+        android:id="@+id/splash"
+        android:src="@drawable/icon3"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:layout_centerInParent="true"
+        />
+
+
+
+
+</RelativeLayout>

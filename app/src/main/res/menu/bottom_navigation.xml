@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:title="Menu Utama"
+        android:icon="@drawable/home_pic"/>
+
+    <item
+        android:id="@+id/nilai"
+        android:title="Nilai"
+        android:icon="@drawable/nilai_pic"/>
+
+    <item
+        android:id="@+id/profile"
+        android:title="Profil"
+        android:icon="@drawable/profile_pic"/>
+</menu>
