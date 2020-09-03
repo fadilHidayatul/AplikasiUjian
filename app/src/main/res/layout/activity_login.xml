@@ -11,15 +11,34 @@
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="5">
-        <TextView
-            android:text="LOGIN"
-            android:textColor="#0E0E0E"
-            android:textSize="35sp"
-            android:layout_marginStart="40dp"
-            android:fontFamily="@font/fira"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:text="LOGIN"
+                android:textColor="#0E0E0E"
+                android:textSize="35sp"
+                android:fontFamily="@font/fira"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:src="@drawable/login"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"/>
+        </LinearLayout>
+
+
+
     </LinearLayout>
     
     <LinearLayout
