@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Login.SplashScreenActivity"
-    android:background="#ffffff">
+    android:background="#ff3f34">
+
 
     <View
         android:layout_centerHorizontal="true"
         android:layout_above="@id/app"
-        android:background="@color/red"
+        android:background="@color/white"
         android:layout_width="300dp"
         android:layout_height="3dp"/>
     <TextView
@@ -20,7 +21,7 @@
         android:textSize="22sp"
         android:fontFamily="@font/friz"
         android:layout_above="@id/garis"
-        android:textColor="#283551"
+        android:textColor="@color/white"
         android:paddingHorizontal="33dp"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
@@ -29,7 +30,7 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/garis"
         android:layout_above="@id/splash"
-        android:background="@color/red"
+        android:background="@color/white"
         android:layout_width="300dp"
         android:layout_height="3dp"/>
 
@@ -40,8 +41,5 @@
         android:layout_height="230dp"
         android:layout_centerInParent="true"
         />
-
-
-
 
 </RelativeLayout>
