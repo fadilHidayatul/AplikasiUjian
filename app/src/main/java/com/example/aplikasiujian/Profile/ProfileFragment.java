@@ -109,7 +109,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getContext(), "koneksi ang baruak", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Cek koneksi internet", Toast.LENGTH_SHORT).show();
             }
         });
 

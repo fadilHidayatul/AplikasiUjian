@@ -312,7 +312,7 @@ public class UjianActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(), "Cek koneksi internet", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -346,7 +346,7 @@ public class UjianActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(context, "Connection Failure", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Cek koneksi internet", Toast.LENGTH_SHORT).show();
                 loadingDialog.stopLoading();
             }
         });

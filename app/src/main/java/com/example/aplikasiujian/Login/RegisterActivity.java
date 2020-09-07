@@ -93,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Toast.makeText(getApplicationContext(), "Koneksi bermasalah!!!.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Cek koneksi internet", Toast.LENGTH_SHORT).show();
                             }
                         });
             }
