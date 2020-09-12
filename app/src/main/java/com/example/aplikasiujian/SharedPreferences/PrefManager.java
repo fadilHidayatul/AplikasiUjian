@@ -15,6 +15,7 @@ public class PrefManager {
     public static final String ID_USER = "ID_USER";
     public static final String TOKEN_USER = "TOKEN_USER";
     public static final String USERNAME = "USERNAME";
+    public static final String KELAS = "KELAS";
 
     public PrefManager(Context context){
         this.mcontext = context;
@@ -36,7 +37,11 @@ public class PrefManager {
     }
 
     //set dari user
-    public void spStringToken(String key, String value){
+    public void spStringKelas(String key, String value){
+        editor.putString(key, value);
+        editor.commit();
+    }
+        public void spStringToken(String key, String value){
         editor.putString(key,value);
         editor.commit();
     }
@@ -50,6 +55,9 @@ public class PrefManager {
     }
 
     //get dari user
+    public String getKelasUser(){
+        return pref.getString(KELAS,"");
+    }
     public String getIdUser(){
         return pref.getString(ID_USER,"");
     }

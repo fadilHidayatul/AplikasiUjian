@@ -85,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                                     manager.spStringToken(PrefManager.TOKEN_USER, user.getToken());
                                     manager.spString(PrefManager.ID_USER, user.getId_user());
                                     manager.spStringName(PrefManager.USERNAME, user.getUsername());
+                                    manager.spStringKelas(PrefManager.KELAS, user.getKelas());
 
                                     Intent masukApp = new Intent(LoginActivity.this, MainActivity.class);
                                     masukApp.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

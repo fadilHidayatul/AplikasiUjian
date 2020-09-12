@@ -5,7 +5,7 @@ public class User {
     /**
      * status : 200
      * message : Success Login
-     * data : {"id_user":"28","username":"Dilo","nis":"2027","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2RiX3VqaWFuXC8iLCJhdWQiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2RiX3VqaWFuXC8iLCJpYXQiOjE1OTc3NTk4MzIsImV4cCI6MTU5Nzc1OTg5MiwiZGF0YSI6eyJ1c2VyX2lkIjpudWxsfX0.G013JVWjqZXYnAnYfNcg5YCUl0xTeZlDdX0asxPMXh4"}
+     * data : {"id_user":"26","username":"fadil","kelas":"4","nis":"2018","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2RiX3VqaWFuXC8iLCJhdWQiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2RiX3VqaWFuXC8iLCJpYXQiOjE1OTk3MjkxNDEsImV4cCI6MTU5OTcyOTIwMSwiZGF0YSI6eyJ1c2VyX2lkIjoiMjYifX0.r_RU4rwJkWSLrAB7gF-Gj7MXShETsTJaqvFUlXiwpRQ"}
      */
 
     private int status;
@@ -38,14 +38,16 @@ public class User {
 
     public static class DataBean {
         /**
-         * id_user : 28
-         * username : Dilo
-         * nis : 2027
-         * token : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2RiX3VqaWFuXC8iLCJhdWQiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2RiX3VqaWFuXC8iLCJpYXQiOjE1OTc3NTk4MzIsImV4cCI6MTU5Nzc1OTg5MiwiZGF0YSI6eyJ1c2VyX2lkIjpudWxsfX0.G013JVWjqZXYnAnYfNcg5YCUl0xTeZlDdX0asxPMXh4
+         * id_user : 26
+         * username : fadil
+         * kelas : 4
+         * nis : 2018
+         * token : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2RiX3VqaWFuXC8iLCJhdWQiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2RiX3VqaWFuXC8iLCJpYXQiOjE1OTk3MjkxNDEsImV4cCI6MTU5OTcyOTIwMSwiZGF0YSI6eyJ1c2VyX2lkIjoiMjYifX0.r_RU4rwJkWSLrAB7gF-Gj7MXShETsTJaqvFUlXiwpRQ
          */
 
         private String id_user;
         private String username;
+        private String kelas;
         private String nis;
         private String token;
 
@@ -63,6 +65,14 @@ public class User {
 
         public void setUsername(String username) {
             this.username = username;
+        }
+
+        public String getKelas() {
+            return kelas;
+        }
+
+        public void setKelas(String kelas) {
+            this.kelas = kelas;
         }
 
         public String getNis() {

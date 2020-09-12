@@ -26,16 +26,20 @@ public interface ApiInterface {
                                );
 
     @GET("soal/read_id.php")
-    Call<ResponseBody> getSoal(@Query("id_matpel") String idMatpel);
+    Call<ResponseBody> getSoal(@Query("id_matpel") String idMatpel,
+                               @Query("kelas") String kelas
+                                );
 
     @FormUrlEncoded
     @POST("nilai/up_nilai.php")
     Call<ResponseBody> sendScore(@Query("id_user") String idUser,
                                  @Query("id_matpel") String idMatpel,
+                                 @Query("kelas") String kelas,
                                  @Field("nilai") int nilai
                                 );
 
     @GET("nilai/getnilai_id.php")
-    Call<ResponseBody> getNilai(@Query("id_user") int idUser
+    Call<ResponseBody> getNilai(@Query("id_user") int idUser,
+                                @Query("kelas") String kelas
                                 );
 }

@@ -16,7 +16,7 @@
         android:layout_height="3dp"/>
     <TextView
         android:id="@+id/app"
-        android:text="Aplikasi Ujian Kenaikan Kelas 5"
+        android:text="Aplikasi Ujian Online Semester 2 (PUSO 2)"
         android:gravity="center"
         android:textSize="22sp"
         android:fontFamily="@font/friz"

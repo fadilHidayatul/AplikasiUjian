@@ -70,7 +70,8 @@ public class NilaiFragment extends Fragment {
     private void fetchNilai() {
         loadingDialog.startLoading();
         int idUser = Integer.parseInt(manager.getIdUser());
-        apiInterface.getNilai(idUser).enqueue(new Callback<ResponseBody>() {
+        namaUser.setText(manager.getName());
+        apiInterface.getNilai(idUser, manager.getKelasUser()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()){
@@ -80,7 +81,6 @@ public class NilaiFragment extends Fragment {
                         if (object.getString("status").equals("200")){
                             JSONArray array = object.getJSONArray("DATA");
 
-                            namaUser.setText(manager.getName());
                             for (int i = 0; i < array.length(); i++) {
                                 if (array.getJSONObject(i).getString("id_matpel").equals("1")){
                                     nilaiBindo.setText(array.getJSONObject(i).getString("nilai"));
@@ -100,10 +100,6 @@ public class NilaiFragment extends Fragment {
 
                             }
 //                            namaUser.setText(array.getJSONObject(0).getString("username"));
-
-
-
-                            //nilaiMm.setText(array.getJSONObject(3).getString("nilai"));
 
                         }
                     } catch (JSONException e) {

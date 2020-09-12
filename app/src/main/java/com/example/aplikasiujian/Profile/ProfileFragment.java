@@ -50,6 +50,8 @@ public class ProfileFragment extends Fragment {
     Context context;
     ApiInterface apiInterface;
     LoadingDialog loadingDialog;
+    @BindView(R.id.prof_kelas)
+    TextView profKelas;
 
     public ProfileFragment() {
 
@@ -77,28 +79,29 @@ public class ProfileFragment extends Fragment {
         apiInterface.getUser(manager.getIdUser()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     try {
                         loadingDialog.stopLoading();
                         JSONObject object = new JSONObject(response.body().string());
-                        if (object.getString("status").equals("200")){
+                        if (object.getString("status").equals("200")) {
                             JSONArray data = object.getJSONArray("data");
-                            for (int i = 0; i <data.length() ; i++) {
+                            for (int i = 0; i < data.length(); i++) {
                                 profUser.setText(data.getJSONObject(i).getString("username"));
                                 profNis.setText(data.getJSONObject(i).getString("nis"));
+                                profKelas.setText(data.getJSONObject(i).getString("kelas"));
                             }
-                        }else{
-                            Toast.makeText(getContext(), ""+object.getString("message"), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "" + object.getString("message"), Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }else{
+                } else {
                     try {
                         JSONObject object = new JSONObject(response.errorBody().string());
-                        Toast.makeText(getContext(), ""+object.getString("MESSAGE"), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "" + object.getString("MESSAGE"), Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -128,7 +131,7 @@ public class ProfileFragment extends Fragment {
                                 manager.removeSession();
                                 getActivity().finish();
                                 Intent intent = new Intent(v.getContext(), LoginActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                             }
                         })

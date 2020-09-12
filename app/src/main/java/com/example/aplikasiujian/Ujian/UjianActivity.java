@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.aplikasiujian.LoadingDialog;
-import com.example.aplikasiujian.MainActivity;
 import com.example.aplikasiujian.Model.Soal;
 import com.example.aplikasiujian.R;
 import com.example.aplikasiujian.SharedPreferences.PrefManager;
@@ -42,8 +41,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static java.lang.Integer.parseInt;
 
 public class UjianActivity extends AppCompatActivity {
 
@@ -77,6 +74,8 @@ public class UjianActivity extends AppCompatActivity {
     List<Soal.DATABean> dataBeans;
 
     String idMatpel = "";
+    @BindView(R.id.s_kelas)
+    TextView sKelas;
 
     private CountDownTimer countDownTimer;
     public long timeLeft = 0;
@@ -96,6 +95,7 @@ public class UjianActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         apiInterface = UtilsApi.getApiService();
         context = this;
+        manager = new PrefManager(context);
 
         loadingDialog = new LoadingDialog(this);
 
@@ -104,76 +104,80 @@ public class UjianActivity extends AppCompatActivity {
     }
 
     public void onRadioClick(View view) {
-        Boolean checked = ((RadioButton)view).isChecked();
+        Boolean checked = ((RadioButton) view).isChecked();
 
-        switch (view.getId()){
-            case R.id.a : if (checked){
-                        jawaban = a.getText().toString();
-                        }
-            break;
-            case R.id.b : if (checked){
-                        jawaban = b.getText().toString();
-                        }
-            break;
-            case R.id.c : if(checked){
-                        jawaban = c.getText().toString();
-                        }
-            break;
-            case R.id.d : if (checked){
-                        jawaban = d.getText().toString();
-                        }
-            break;
+        switch (view.getId()) {
+            case R.id.a:
+                if (checked) {
+                    jawaban = a.getText().toString();
+                }
+                break;
+            case R.id.b:
+                if (checked) {
+                    jawaban = b.getText().toString();
+                }
+                break;
+            case R.id.c:
+                if (checked) {
+                    jawaban = c.getText().toString();
+                }
+                break;
+            case R.id.d:
+                if (checked) {
+                    jawaban = d.getText().toString();
+                }
+                break;
         }
 
     }
 
     public void fetchSoal() {
         loadingDialog.startLoading();
-        apiInterface.getSoal(idMatpel).enqueue(new Callback<ResponseBody>() {
+        apiInterface.getSoal(idMatpel, manager.getKelasUser()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     try {
                         JSONObject object = new JSONObject(response.body().string());
                         loadingDialog.stopLoading();
-                        if (object.getString("status").equals("200")){
+                        if (object.getString("status").equals("200")) {
                             JSONArray array = object.getJSONArray("DATA");
 
                             //ambil soal tambah ke model dari API
                             dataBeans = new ArrayList<>();
                             Gson gson = new Gson();
-                            for (int i = 0; i <array.length() ; i++) {
+                            for (int i = 0; i < array.length(); i++) {
                                 Soal.DATABean bean = gson.fromJson(array.get(i).toString(), Soal.DATABean.class);
                                 dataBeans.add(bean);
                             }
-
+                            sKelas.setText(manager.getKelasUser());
                             int num = array.length();
                             noSoal.setText(count + "");
 
                             //set soal pertama
-                            txtSoal.setText(dataBeans.get(count-1).getText_soal());
-                            a.setText(dataBeans.get(count-1).getA());
-                            b.setText(dataBeans.get(count-1).getB());
-                            c.setText(dataBeans.get(count-1).getC());
-                            d.setText(dataBeans.get(count-1).getD());
-                            if (dataBeans.get(count-1).getImage_soal() == null){
+                            txtSoal.setText(dataBeans.get(count - 1).getText_soal());
+                            a.setText(dataBeans.get(count - 1).getA());
+                            b.setText(dataBeans.get(count - 1).getB());
+                            c.setText(dataBeans.get(count - 1).getC());
+                            d.setText(dataBeans.get(count - 1).getD());
+                            if (dataBeans.get(count - 1).getImage_soal() == null) {
                                 imgSoal.setVisibility(View.GONE);
                             }
-                            String urlGambar = UtilsApi.urlImage+""+dataBeans.get(count-1).getImage_soal();
+                            String urlGambar = UtilsApi.urlImage + "" + dataBeans.get(count - 1).getImage_soal();
                             Glide.with(context).load(urlGambar).placeholder(R.drawable.nilai_pic).into(imgSoal);
 
-                            jawab = new ArrayList<>( );
-                            for (int i = 0; i <num ; i++) {
+                            jawab = new ArrayList<>();
+                            for (int i = 0; i < num; i++) {
                                 jawab.add(""); //default
                             }
 
-                            if (count == 1){
+                            if (count == 1) {
                                 btnPrev.setVisibility(View.GONE);
                             }
                             btnNext.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                    public void onClick(View v) {
-                                    jawab.set(count-1, jawaban); //set jawaban dari soal 1
+                                public void onClick(View v) {
+                                    jawab.set(count - 1, jawaban); //set jawaban dari soal 1
 
                                     count++;
                                     noSoal.setText("" + count);
@@ -184,36 +188,36 @@ public class UjianActivity extends AppCompatActivity {
                                         btnNext.setVisibility(View.GONE);
                                         btnSubmit.setVisibility(View.VISIBLE);
                                         //submitbtn()
-                                    }else {
+                                    } else {
                                         btnNext.setVisibility(View.VISIBLE);
                                         btnPrev.setVisibility(View.VISIBLE);
                                     }
 
-                                    txtSoal.setText(dataBeans.get(count-1).getText_soal());
-                                    a.setText(dataBeans.get(count-1).getA());
-                                    b.setText(dataBeans.get(count-1).getB());
-                                    c.setText(dataBeans.get(count-1).getC());
-                                    d.setText(dataBeans.get(count-1).getD());
-                                    if (dataBeans.get(count-1).getImage_soal() == null){
+                                    txtSoal.setText(dataBeans.get(count - 1).getText_soal());
+                                    a.setText(dataBeans.get(count - 1).getA());
+                                    b.setText(dataBeans.get(count - 1).getB());
+                                    c.setText(dataBeans.get(count - 1).getC());
+                                    d.setText(dataBeans.get(count - 1).getD());
+                                    if (dataBeans.get(count - 1).getImage_soal() == null) {
                                         imgSoal.setVisibility(View.GONE);
-                                    }else{
+                                    } else {
                                         imgSoal.setVisibility(View.VISIBLE);
                                     }
-                                    String urlGambar = UtilsApi.urlImage+""+dataBeans.get(count-1).getImage_soal();
+                                    String urlGambar = UtilsApi.urlImage + "" + dataBeans.get(count - 1).getImage_soal();
                                     Glide.with(context).load(urlGambar).placeholder(R.drawable.nilai_pic).into(imgSoal);
 
-                                    Toast.makeText(getApplicationContext(), ""+jawab.get(count-2), Toast.LENGTH_SHORT).show();//
+                                    Toast.makeText(getApplicationContext(), "" + jawab.get(count - 2), Toast.LENGTH_SHORT).show();//
 
                                     //cek radio jika tombol dibalik
-                                    if (a.getText().toString().equals(jawab.get(count-1))){
+                                    if (a.getText().toString().equals(jawab.get(count - 1))) {
                                         a.setChecked(true);
-                                    }else if(b.getText().toString().equals(jawab.get(count-1))){
+                                    } else if (b.getText().toString().equals(jawab.get(count - 1))) {
                                         b.setChecked(true);
-                                    }else if(c.getText().toString().equals(jawab.get(count-1))){
+                                    } else if (c.getText().toString().equals(jawab.get(count - 1))) {
                                         c.setChecked(true);
-                                    } else if(d.getText().toString().equals(jawab.get(count-1))){
+                                    } else if (d.getText().toString().equals(jawab.get(count - 1))) {
                                         d.setChecked(true);
-                                    }else{
+                                    } else {
                                         a.setChecked(true);
                                     }
                                 }
@@ -222,9 +226,9 @@ public class UjianActivity extends AppCompatActivity {
                             btnSubmit.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    jawab.set(count-1, jawaban);
+                                    jawab.set(count - 1, jawaban);
                                     Log.i("TAG", "onClick: " + jawab);
-                                    Toast.makeText(getApplicationContext(), ""+jawab.get(count-1), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "" + jawab.get(count - 1), Toast.LENGTH_SHORT).show();
                                     AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                                     builder.setTitle("Ujian Selesai!!")
                                             .setMessage("Apakah kamu yakin dengan jawaban yang sudah diisi?")
@@ -234,8 +238,8 @@ public class UjianActivity extends AppCompatActivity {
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     //pengolahan nilai disini
                                                     int totalBenar = 0;
-                                                    for (int i = 0; i <num ; i++) {
-                                                        if (jawab.get(i).equals(dataBeans.get(i).getKunci())){
+                                                    for (int i = 0; i < num; i++) {
+                                                        if (jawab.get(i).equals(dataBeans.get(i).getKunci())) {
                                                             totalBenar++;
                                                         }
                                                     }
@@ -272,26 +276,26 @@ public class UjianActivity extends AppCompatActivity {
                                         btnNext.setVisibility(View.VISIBLE);
                                     }
 
-                                    txtSoal.setText(dataBeans.get(count-1).getText_soal());
-                                    a.setText(dataBeans.get(count-1).getA());
-                                    b.setText(dataBeans.get(count-1).getB());
-                                    c.setText(dataBeans.get(count-1).getC());
-                                    d.setText(dataBeans.get(count-1).getD());
-                                    if (dataBeans.get(count-1).getImage_soal() == null){
+                                    txtSoal.setText(dataBeans.get(count - 1).getText_soal());
+                                    a.setText(dataBeans.get(count - 1).getA());
+                                    b.setText(dataBeans.get(count - 1).getB());
+                                    c.setText(dataBeans.get(count - 1).getC());
+                                    d.setText(dataBeans.get(count - 1).getD());
+                                    if (dataBeans.get(count - 1).getImage_soal() == null) {
                                         imgSoal.setVisibility(View.GONE);
-                                    }else{
+                                    } else {
                                         imgSoal.setVisibility(View.VISIBLE);
                                     }
-                                    String urlGambar = UtilsApi.urlImage+""+dataBeans.get(count-1).getImage_soal();
+                                    String urlGambar = UtilsApi.urlImage + "" + dataBeans.get(count - 1).getImage_soal();
                                     Glide.with(context).load(urlGambar).placeholder(R.drawable.nilai_pic).into(imgSoal);
 
-                                    if (a.getText().toString().equals(jawab.get(count-1))){
+                                    if (a.getText().toString().equals(jawab.get(count - 1))) {
                                         a.setChecked(true);
-                                    }else if(b.getText().toString().equals(jawab.get(count-1))){
+                                    } else if (b.getText().toString().equals(jawab.get(count - 1))) {
                                         b.setChecked(true);
-                                    }else if(c.getText().toString().equals(jawab.get(count-1))){
+                                    } else if (c.getText().toString().equals(jawab.get(count - 1))) {
                                         c.setChecked(true);
-                                    } else if(d.getText().toString().equals(jawab.get(count-1))){
+                                    } else if (d.getText().toString().equals(jawab.get(count - 1))) {
                                         d.setChecked(true);
                                     }
 
@@ -318,23 +322,23 @@ public class UjianActivity extends AppCompatActivity {
     }
 
     private void kirimNilai(int nilai) {
-        manager = new PrefManager(context);
+
         String score = String.valueOf(nilai);
-        apiInterface.sendScore(manager.getIdUser(),idMatpel,nilai).enqueue(new Callback<ResponseBody>() {
+        apiInterface.sendScore(manager.getIdUser(),idMatpel,manager.getKelasUser(),nilai).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     try {
                         JSONObject object = new JSONObject(response.body().string());
-                        if (object.getString("status").equals("200")){
+                        if (object.getString("status").equals("200")) {
                             Toast.makeText(getApplicationContext(), "Ujian Selesai, Silahkan Cek Nilai", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(UjianActivity.this, HasilUjianActivity.class);
                             intent.putExtra("array", (Serializable) jawab);
                             intent.putExtra("nilai", score);
                             intent.putExtra("idmatpel", idMatpel);
                             startActivity(intent);
-                        }else{
-                            Toast.makeText(getApplicationContext(), ""+object.getString("message"), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "" + object.getString("message"), Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -356,25 +360,26 @@ public class UjianActivity extends AppCompatActivity {
 
     private void cekmatpel() {
         Intent intent = getIntent();
-        int flag = intent.getIntExtra("FLAG",0);
-        if (flag == 1){
+        int flag = intent.getIntExtra("FLAG", 0);
+        if (flag == 1) {
             idMatpel = String.valueOf(flag);
-        }else if(flag == 2){
+        } else if (flag == 2) {
             idMatpel = String.valueOf(flag);
-        }else if (flag == 3){
+        } else if (flag == 3) {
             idMatpel = String.valueOf(flag);
-        }else if(flag == 4){
+        } else if (flag == 4) {
             idMatpel = String.valueOf(flag);
         }
     }
 
     private void startCountdown() {
-        countDownTimer = new CountDownTimer(timeLeft,1000) {
+        countDownTimer = new CountDownTimer(timeLeft, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeLeft = millisUntilFinished;
                 updateTimer();
             }
+
             private void updateTimer() {
                 int minutes = (int) timeLeft / 60000;
                 int seconds = (int) timeLeft % 60000 / 1000;
@@ -383,7 +388,7 @@ public class UjianActivity extends AppCompatActivity {
                 stringTime = "" + minutes;
                 stringTime += ":";
 
-                if (seconds<10){
+                if (seconds < 10) {
                     stringTime += "0";
                 }
                 stringTime += seconds;

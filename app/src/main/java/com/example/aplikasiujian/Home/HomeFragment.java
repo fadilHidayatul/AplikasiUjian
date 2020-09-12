@@ -1,16 +1,19 @@
 package com.example.aplikasiujian.Home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.aplikasiujian.LoadingDialog;
 import com.example.aplikasiujian.R;
+import com.example.aplikasiujian.SharedPreferences.PrefManager;
 import com.example.aplikasiujian.Ujian.UjianActivity;
 
 import butterknife.BindView;
@@ -27,6 +30,8 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.ipa)
     Button ipa;
 
+    PrefManager manager;
+    Context context;
 
     public HomeFragment() {
 
@@ -36,8 +41,11 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this,view);
+        context = view.getContext();
+        manager = new PrefManager(context);
 
 
+        Toast.makeText(getContext(), ""+manager.getKelasUser(), Toast.LENGTH_SHORT).show();
         bindo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
