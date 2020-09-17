@@ -230,7 +230,7 @@ public class UjianActivity extends AppCompatActivity {
                                     Log.i("TAG", "onClick: " + jawab);
                                     Toast.makeText(getApplicationContext(), "" + jawab.get(count - 1), Toast.LENGTH_SHORT).show();
                                     AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                                    builder.setTitle("Ujian Selesai!!")
+                                    builder.setTitle("Ujian Selesai!!!")
                                             .setMessage("Apakah kamu yakin dengan jawaban yang sudah diisi?")
                                             .setCancelable(false)
                                             .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
