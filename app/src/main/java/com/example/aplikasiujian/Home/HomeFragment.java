@@ -44,8 +44,6 @@ public class HomeFragment extends Fragment {
         context = view.getContext();
         manager = new PrefManager(context);
 
-
-        Toast.makeText(getContext(), ""+manager.getKelasUser(), Toast.LENGTH_SHORT).show();
         bindo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

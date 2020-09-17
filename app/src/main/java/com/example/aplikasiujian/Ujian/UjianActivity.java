@@ -206,7 +206,7 @@ public class UjianActivity extends AppCompatActivity {
                                     String urlGambar = UtilsApi.urlImage + "" + dataBeans.get(count - 1).getImage_soal();
                                     Glide.with(context).load(urlGambar).placeholder(R.drawable.nilai_pic).into(imgSoal);
 
-                                    Toast.makeText(getApplicationContext(), "" + jawab.get(count - 2), Toast.LENGTH_SHORT).show();//
+                                    //Toast.makeText(getApplicationContext(), "" + jawab.get(count - 2), Toast.LENGTH_SHORT).show();//
 
                                     //cek radio jika tombol dibalik
                                     if (a.getText().toString().equals(jawab.get(count - 1))) {
