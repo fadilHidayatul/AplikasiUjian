@@ -2,11 +2,16 @@ package com.example.aplikasiujian.Login;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.TextUtils;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +53,12 @@ public class LoginActivity extends AppCompatActivity {
     PrefManager manager;
     ApiInterface apiInterface;
     Context context;
+    @BindView(R.id.txtwarning)
+    TextView txtwarning;
+    @BindView(R.id.warning)
+    LinearLayout warning;
+
+    Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,71 +66,92 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        context =this;
+        context = this;
         manager = new PrefManager(context);
         apiInterface = UtilsApi.getApiService();
 
         performLogin();
+
     }
 
+
     private void performLogin() {
-       btnLogin.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-                apiInterface.getLogin(nis.getText().toString(), password.getText().toString())
-                        .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()){
-                            try {
-                                JSONObject object = new JSONObject(response.body().string());
-                                if (object.getString("status").equals("200")){
-                                    JSONObject data = object.getJSONObject("data");
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                                    //kirim data ke model
-                                    Gson gson = new Gson();
-                                    User.DataBean user = gson.fromJson(data+"",User.DataBean.class);
+                if (TextUtils.isEmpty(nis.getText().toString())) {
+                    nis.setError("Masukkan NIS");
+                    return;
+                } else if (TextUtils.isEmpty(password.getText().toString())) {
+                    password.setError("Masukkan Password");
+                    return;
+                } else {
+                    apiInterface.getLogin(nis.getText().toString(), password.getText().toString())
+                            .enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    if (response.isSuccessful()) {
+                                        try {
+                                            JSONObject object = new JSONObject(response.body().string());
+                                            if (object.getString("status").equals("200")) {
+                                                JSONObject data = object.getJSONObject("data");
 
-                                    //simpan di shared preferences
-                                    manager.saveSession();
-                                    manager.spStringToken(PrefManager.TOKEN_USER, user.getToken());
-                                    manager.spString(PrefManager.ID_USER, user.getId_user());
-                                    manager.spStringName(PrefManager.USERNAME, user.getUsername());
-                                    manager.spStringKelas(PrefManager.KELAS, user.getKelas());
+                                                //kirim data ke model
+                                                Gson gson = new Gson();
+                                                User.DataBean user = gson.fromJson(data + "", User.DataBean.class);
 
-                                    Intent masukApp = new Intent(LoginActivity.this, MainActivity.class);
-                                    masukApp.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    startActivity(masukApp);
-                                }else{
-                                    Toast.makeText(getApplicationContext(), ""+object.getString("message"), Toast.LENGTH_SHORT).show();
+                                                //simpan di shared preferences
+                                                manager.saveSession();
+                                                manager.spStringToken(PrefManager.TOKEN_USER, user.getToken());
+                                                manager.spString(PrefManager.ID_USER, user.getId_user());
+                                                manager.spStringName(PrefManager.USERNAME, user.getUsername());
+                                                manager.spStringKelas(PrefManager.KELAS, user.getKelas());
+
+                                                Intent masukApp = new Intent(LoginActivity.this, MainActivity.class);
+                                                masukApp.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                startActivity(masukApp);
+                                            } else {
+                                                warning.setVisibility(View.VISIBLE);
+                                                txtwarning.setText(object.getString("message"));
+                                                closeWarning();
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                        try {
+                                            JSONObject object = new JSONObject(response.errorBody().string());
+                                            Toast.makeText(getApplicationContext(), "" + object.getString("MESSAGE"), Toast.LENGTH_SHORT).show();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
                                 }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }else {
-                            try {
-                                JSONObject object = new JSONObject(response.errorBody().string());
-                                Toast.makeText(getApplicationContext(), ""+object.getString("MESSAGE"), Toast.LENGTH_SHORT).show();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toast.makeText(context, "Cek koneksi internet", Toast.LENGTH_SHORT).show();
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    Toast.makeText(context, "Cek koneksi internet", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
 
-                    }
-                });
+            }
+        });
+    }
 
-
-           }
-       });
+    private void closeWarning() {
+        handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                warning.setVisibility(View.GONE);
+            }
+        },5000);
     }
 
     public void Register(View view) {
