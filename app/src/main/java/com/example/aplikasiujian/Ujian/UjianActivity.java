@@ -228,7 +228,7 @@ public class UjianActivity extends AppCompatActivity {
                                 public void onClick(View v) {
                                     jawab.set(count - 1, jawaban);
                                     Log.i("TAG", "onClick: " + jawab);
-                                    Toast.makeText(getApplicationContext(), "" + jawab.get(count - 1), Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getApplicationContext(), "" + jawab.get(count - 1), Toast.LENGTH_SHORT).show();
                                     AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                                     builder.setTitle("Ujian Selesai!!!")
                                             .setMessage("Apakah kamu yakin dengan jawaban yang sudah diisi?")

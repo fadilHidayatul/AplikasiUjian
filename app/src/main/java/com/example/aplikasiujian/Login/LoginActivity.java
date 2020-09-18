@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.txtwarning)
     TextView txtwarning;
     @BindView(R.id.warning)
-    LinearLayout warning;
+    RelativeLayout warning;
 
     Handler handler;
 
@@ -124,7 +125,10 @@ public class LoginActivity extends AppCompatActivity {
                                     } else {
                                         try {
                                             JSONObject object = new JSONObject(response.errorBody().string());
-                                            Toast.makeText(getApplicationContext(), "" + object.getString("MESSAGE"), Toast.LENGTH_SHORT).show();
+                                            warning.setVisibility(View.VISIBLE);
+                                            txtwarning.setText(object.getString("message"));
+                                            closeWarning();
+                                            //Toast.makeText(getApplicationContext(), "" + object.getString("MESSAGE"), Toast.LENGTH_SHORT).show();
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         } catch (IOException e) {
@@ -135,7 +139,10 @@ public class LoginActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                    Toast.makeText(context, "Cek koneksi internet", Toast.LENGTH_SHORT).show();
+                                    warning.setVisibility(View.VISIBLE);
+                                    txtwarning.setText("Cek Koneksi Internet");
+                                    closeWarning();
+                                    //Toast.makeText(context, "Cek koneksi internet", Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }

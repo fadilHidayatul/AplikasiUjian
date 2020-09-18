@@ -160,21 +160,31 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/warning"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:background="@color/red"
+        android:paddingVertical="6dp"
         android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/w"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:paddingRight="9dp"
+            android:src="@drawable/alert"
+            android:layout_marginStart="18dp"
+            android:layout_centerVertical="true"
+            />
         <TextView
             android:id="@+id/txtwarning"
-            android:paddingVertical="12dp"
-            android:layout_marginStart="18dp"
+            android:layout_toRightOf="@id/w"
+            android:layout_centerVertical="true"
             android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Warning Here"
             android:textColor="@color/white"/>
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
