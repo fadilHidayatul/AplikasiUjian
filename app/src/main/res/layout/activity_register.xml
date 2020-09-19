@@ -172,8 +172,8 @@
         android:id="@+id/warning"
         android:visibility="gone"
         android:layout_width="match_parent"
-        android:background="@color/red"
-        android:paddingVertical="6dp"
+        android:background="@drawable/drawable_alert"
+        android:paddingVertical="4dp"
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/w"
