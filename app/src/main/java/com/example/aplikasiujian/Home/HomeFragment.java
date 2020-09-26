@@ -1,6 +1,8 @@
 package com.example.aplikasiujian.Home;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,12 +14,25 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.aplikasiujian.LoadingDialog;
+import com.example.aplikasiujian.Login.LoginActivity;
 import com.example.aplikasiujian.R;
 import com.example.aplikasiujian.SharedPreferences.PrefManager;
 import com.example.aplikasiujian.Ujian.UjianActivity;
+import com.example.aplikasiujian.Utils.ApiInterface;
+import com.example.aplikasiujian.Utils.UtilsApi;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
@@ -43,6 +58,7 @@ public class HomeFragment extends Fragment {
         ButterKnife.bind(this,view);
         context = view.getContext();
         manager = new PrefManager(context);
+
 
         bindo.setOnClickListener(new View.OnClickListener() {
             @Override
