@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()){
                     try {
-
                         JSONObject object = new JSONObject(response.body().string());
                         if (object.getString("status").equals("200")){
                             JSONArray data = object.getJSONArray("data");
