@@ -82,6 +82,8 @@ public class UjianActivity extends AppCompatActivity {
 
     String jawaban;
     String kunci;
+    int nilai = 0;
+    int num = 0;
 
     List<String> jawab;
 
@@ -151,7 +153,7 @@ public class UjianActivity extends AppCompatActivity {
                                 dataBeans.add(bean);
                             }
                             sKelas.setText(manager.getKelasUser());
-                            int num = array.length();
+                            num = array.length();
                             noSoal.setText(count + "");
 
                             //set soal pertama
@@ -243,7 +245,7 @@ public class UjianActivity extends AppCompatActivity {
                                                             totalBenar++;
                                                         }
                                                     }
-                                                    int nilai = totalBenar * 5;
+                                                    nilai = totalBenar * 5;
                                                     kirimNilai(nilai);
 
 //                                                    Toast.makeText(UjianActivity.this, "Silahkan cek nilai kamu : "+nilai, Toast.LENGTH_SHORT).show();
@@ -303,7 +305,8 @@ public class UjianActivity extends AppCompatActivity {
                                 }
                             });
 
-                            timeLeft = timeLeft + (Long.parseLong(dataBeans.get(0).getWaktu_pengerjaan()) * 60000);
+                            //timeLeft = timeLeft + (Long.parseLong(dataBeans.get(0).getWaktu_pengerjaan()) * 60000);
+                            timeLeft = timeLeft + (2 * 60000);
                             startCountdown();
                         }
                     } catch (JSONException e) {
@@ -397,8 +400,18 @@ public class UjianActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+                int totalBenar = 0;
+                for (int i = 0; i < num; i++) {
+                    if (jawab.get(i).equals(dataBeans.get(i).getKunci())) {
+                        totalBenar++;
+                    }
+                }
+                nilai = totalBenar * 5;
+                kirimNilai(nilai);
+
                 countDown.setText("Done");
                 UjianActivity.this.finish();
+
             }
         }.start();
 
