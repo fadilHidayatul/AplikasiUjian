@@ -305,8 +305,7 @@ public class UjianActivity extends AppCompatActivity {
                                 }
                             });
 
-                            //timeLeft = timeLeft + (Long.parseLong(dataBeans.get(0).getWaktu_pengerjaan()) * 60000);
-                            timeLeft = timeLeft + (2 * 60000);
+                            timeLeft = timeLeft + (Long.parseLong(dataBeans.get(0).getWaktu_pengerjaan()) * 60000);
                             startCountdown();
                         }
                     } catch (JSONException e) {
