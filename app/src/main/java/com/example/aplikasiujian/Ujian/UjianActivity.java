@@ -249,7 +249,6 @@ public class UjianActivity extends AppCompatActivity {
                                                     kirimNilai(nilai);
 
 //                                                    Toast.makeText(UjianActivity.this, "Silahkan cek nilai kamu : "+nilai, Toast.LENGTH_SHORT).show();
-
                                                 }
                                             })
                                             .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
@@ -324,7 +323,6 @@ public class UjianActivity extends AppCompatActivity {
     }
 
     private void kirimNilai(int nilai) {
-
         String score = String.valueOf(nilai);
         apiInterface.sendScore(manager.getIdUser(),idMatpel,manager.getKelasUser(),nilai).enqueue(new Callback<ResponseBody>() {
             @Override
